@@ -1,41 +1,30 @@
 package com.imaginea.restaurant.model;
 
-import java.util.List;
 import java.util.Map;
 
 public class Restaurant {
 	private int restaurantId;
-	private List<String> itemList;
-	private Map<String, Double> priceMap;
+	private Map<String, Double> item_PriceMap;
 	
 	public Restaurant() {}
 	
-	public Restaurant(int restaurantId, List<String> itemList, Map<String, Double> priceMap) {
+	public Restaurant(int restaurantId, Map<String, Double> item_PriceMap) {
 		this.restaurantId = restaurantId;
-		this.itemList = itemList;
-		this.priceMap = priceMap;
+		this.item_PriceMap = item_PriceMap;
 	}
 	
+	public Map<String, Double> getItem_PriceMap() {
+		return item_PriceMap;
+	}
+
+	public void setItem_PriceMap(Map<String, Double> item_PriceMap) {
+		this.item_PriceMap = item_PriceMap;
+	}
+
 	public int getRestaurantId() {
 		return restaurantId;
 	}
 	
-	public List<String> getItemList() {
-		return itemList;
-	}
-
-	public void setItemList(List<String> itemList) {
-		this.itemList = itemList;
-	}
-
-	public Map<String, Double> getPriceMap() {
-		return priceMap;
-	}
-
-	public void setPriceMap(Map<String, Double> priceMap) {
-		this.priceMap = priceMap;
-	}
-
 	public void setRestaurantId(int restaurantId) {
 		this.restaurantId = restaurantId;
 	}
@@ -43,6 +32,6 @@ public class Restaurant {
 	
 	@Override
 	public String toString() {
-		return "[RestaurantId="+restaurantId+" Item List="+itemList+" PriceMap="+priceMap+"]";
+		return "[RestaurantId="+restaurantId+" PriceItemMap="+item_PriceMap+"]";
 	}
 }

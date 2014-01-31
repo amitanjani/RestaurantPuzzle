@@ -40,12 +40,11 @@ public class BestDeal {
 		for (Integer restId : restIds) {
 			Double total = 0.0;
 			for (String item : itemLabels) {
-				Map<String, Double> priceMap =((Restaurant) restaurantsMenuCard.get(restId)).getPriceMap();
+				Map<String, Double> priceMap =((Restaurant) restaurantsMenuCard.get(restId)).getItem_PriceMap();
 				Double itemPrice = priceMap.get(item);
 				// check item in value meal
 				if(itemPrice == null){
-					item = getItemKey(item, priceMap);
-					itemPrice = priceMap.get(item);
+					itemPrice = getItemPrice(item, priceMap);
 				}
 				total += itemPrice;
 			}
@@ -58,22 +57,34 @@ public class BestDeal {
 	}
 
 	// prepare ItemKey of Value meal
-	private String getItemKey(String item, Map<String, Double> priceMap){
+	private Double getItemPrice(String item, Map<String, Double> priceMap){
 		Iterator<String> keySetItr = priceMap.keySet().iterator();
 		while(keySetItr.hasNext()){
 			String itemKey = keySetItr.next().toString();
 			if(itemKey.length() > item.length() && itemKey.contains(item))
-				return itemKey;
+				return priceMap.get(itemKey);
 		}
 		return null;
+	}
+	
+	private boolean isValueMealItem(String item, Set<String> itemLabels) {
+		for (String itemLbl : itemLabels) {
+			if (itemLbl.contains(item)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private void getRestaurantBasedOnItem(String[] inputItems){
 		Set<Integer> restIds= restaurantsMenuCard.keySet();
 		for(String item:inputItems){
 			for(Integer restId:restIds){
-				if(!((Restaurant)restaurantsMenuCard.get(restId)).getItemList().contains(item)){
-					restaurantsMenuCard.remove(restId);
+				Set<String> itemLabels = restaurantsMenuCard.get(restId).getItem_PriceMap().keySet();
+				if(!(itemLabels.contains(item))){
+					if(!isValueMealItem(item, itemLabels)){
+						restaurantsMenuCard.remove(restId);
+					}
 				}
 			}
 		}
